@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PolyScribe</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/one-page-wonder.css" rel="stylesheet">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#top">Polyscribe</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#motivation" class="hvr-grow">Motivation</a>
+                    </li>
+                    <li>
+                        <a href="#solution" class="hvr-grow">Solution</a>
+                    </li>
+                    <li>
+                        <a href="#training" class="hvr-grow">Training & Testing</a>
+                    </li>
+                    <li>
+                        <a href="#results" class="hvr-grow">Results</a>
+                    </li>
+                    <li>
+                        <a href="#team" class="hvr-grow">Team</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Full Width Image Header -->
+    <header class="header-image" id="top">
+        <div class="headline">
+            <div class="container">
+                <h2>Polyscribe
+                </h2>
+                <h3>
+                    Pitch Detection for Polyphonic Piano Music
+                    <i class="fa fa-music" aria-hidden="true"></i>
+                </h3>
+                 <br></br>
+                <h3>EECS 352 - Machine Perception of Music and Audio</h3>
+                <h3>
+                    Aiqi Liu: <a href="mailto:aiqiliu2018@u.northwestern.edu">aiqiliu2018@u.northwestern.edu</a>
+                     <br></br> 
+                    Coneway Zhu: <a href="mailto:conwayzhu2019@u.northwestern.edu">conwayzhu2019@u.northwestern.edu</a>
+                </strong></h3>
+                <br></br>
+                <h3>
+                </h3>
+                <h4>
+                    Credits To:
+                    <br></br>
+                    Northwstern University
+                    <br></br>
+                    Professor Bryan Pardo, Fatemeh Pishdadian
+                </h4>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <hr class="featurette-divider">
+
+        <!-- First Featurette -->
+        <div class="featurette" id="motivation">
+            <img class="featurette-image img-responsive pull-right img-pad" src="img/sheeticon.jpg">
+            <h2 class="featurette-heading">Motivation</h2>
+            <p class="lead">There are two types of music for pitch detection: monophonic music (one instrument playing one note at a time) and polyphonice music (one or more instruments playing more than one note at a time). While there has been much success in automatic monophonic music transcription, polyphonic transcription still remains a challenge.</p>
+            <p class="lead">
+            As pianists oursevles, we felt this was a problem worth addressing. Polyphonic transcription is useful when a musician wants to learn a certain piece of music but doesn't have access to the musical score. This is especially true in the case of say, jazz, where each artist has his or her own interpretation of the piece, and no exact score exists. Polyphonic transcription also enables musicians to more easily formalize their compositions. Let's say you have an idea for a melody or chord progression in your head. Instead of writing it down, you can simply play it and let PolyScribe do the rest of the work (we're not <em>quite</em> there yet, but you get the point).
+            </p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Second Featurette -->
+        <div class="featurette" id="solution">
+            <h2 class="featurette-heading">Approach</h2>
+            <p class="lead">We are re-implementing the model and algorithmic approach described in 
+                <a href="http://www.ece.rochester.edu/~acogliat/assets/pdf/taslp2016.pdf"> Andrea Cogliati’s paper</a> in Python. Coliati's paper focuses on the pitch prediction and onset detection of polyphonic piano performance. The method described in Cogliati's paper uses a time-domain approach to transcribe polyphonic piano performances at the note-level. The method models the polyphonic piano performance waveform as a convolution of the individual notes' waveforms and their activation weights. By solving an optimization problem called Convolutional Basis Pursuit DeNoising (CBPDN), we can derive the activation weights of each note at each sample rate timestamp. The details of this algorithm are presented later.</p>
+
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Third Featurette -->
+        <div class="featurette" id="training">
+        <h2 class="featurette-heading">Methods</h2>
+         <p class="lead">
+            Based on the proposed method desribed in the paper, there are four main stages for the transcription process - training, convolutional sparse coding, post-processing, and binarization. <br></br>
+            <strong>Training</strong>
+            <br></br>
+            The training set in this project is a dictionary of the 88 individual notes played on a piano, and the notes were played at the dynamic level of forte. Based on these requirements listed on the paper, we got our traning samples from the <a href="http://www.tsi.telecom-paristech.fr/aao/en/2010/07/08/maps-database-a-piano-database-for-multipitch-estimation-and-automatic-transcription-of-music/">MAPS database</a> created by the Telecom ParisTech. The MAPS datbase provides recordings of the individual notes, chords and music pieces played by different pianos under different recording conditions, and their corresponding MIDI files. Based on the implementation of the paper, we used the SptkBGCI dataset from MAPS, which is the Steinway D model recorded under the "Close" recording condition. We extracted the 88 individual piano notes played at forte from the dataset, took a one-second duration of each note based on the onset and offset ground truth provided by the MIDI file, and downsampled each segment to 11,025Hz to reduce the computation complexity for the CSC algorithm.<br></br>
+            <strong>Convolutional Sparse Coding: </strong>
+            <br></br>
+            Convolutional Basis Pursuit DeNoising (CBPDN) is defined by the following formula 
+            <img class="featurette-image img-responsive img-pad" style="width: 40%" src="img/csc.png">
+            where <em>s</em> is our polyphonic signal, <em>d_m</em> is our dictionary of individual notes, <em>x_m</em> is our activation vector, and lambda is the sparsity parameter. To solve this optimization problem, we used the python version of <a href="http://pythonhosted.org/sporco/overview.html">SPORCO</a>, an implementation of CBPDN that reduces the algorithmic time complexity from O(M^2N^2L) to O(MNlogN), where N is the length of the signal and M is the number of elements in the dictionary (88). We used  a polyphonic piano performance played by the same piano used for training and took a 5s segment as s(t), and approximate it with a summation of the dictionary of individual notes d_m(t) convolved with the activation vectors for all notes x_m(t), like so:
+            <img class="featurette-image img-responsive img-pad" style="width: 40%" src="img/formula.png">
+            The algorithm returns the estimations of the activations of all notes. To align the sample rate of the individual notes in the training set with the testing set, the polyphonic performance, we downsampled the piano polyphonic music to 11,025Hz. We used 0.005 as the value for the parameter lambda, and 500 as the number of iterations, as they were shown to be the values that return the best results in the paper. <br></br>
+
+            <strong>Post-processing and Binarization </strong>
+            <br></br>
+            From the raw activation vectors <em>x_m</em>, we performed peak picking of the local maxima for each activation vector at each sample rate timestamp to infer note onset. Based on our observation, our local maximum peaks were very noisy. We discovered that, contrary to the original paper, the earliest local maxima that appears in the 50ms window may not be the note that was actually playing at that time. Therefore, we modified the implementation of the paper. We sorted all local maximum raw activations and calculated the Inter-quartile range(IQR). Through our experiment, we found out that setting the threshold at "Q3 + 12 * IQR" seemed to eliminate most of the noisy peaks. Therefore, we removed all the local maximum that are below the threshold, and performed a binarization based on this threshold. 
+            </p>
+
+        </div>
+
+        <hr class="featurette-divider">
+
+         <!-- Fourth Featurette -->
+         <div class="featurette" id="results">
+            <h2 class="featurette-heading">Evaluation</h2>
+            <p class="lead">
+                For our evaluation metrics, we calculated the precision and recall of our transcription. In our case, precision is the percentage of notes detected from our transcription that match with the ground truth given by the MIDI file of the polyphonic music. And recall is the percentage of the notes in the groundtruth that overlap with the notes in the transcription.
+                <br></br>
+                We got the precision of ********* and recall of ********.
+            </p>
+        </div>
+
+
+         <hr class="featurette-divider">
+        <!-- Fifth Featurette -->
+        <div class="featurette" id="results">
+            <h2 class="featurette-heading">Results</h2>
+            <img class="table" src="img/table.png"></img>
+            <p class="caption"><i>Table displaying the final cross-validation classification accuracies for each of the learning models</i></p>
+            <p class="lead">As can be seen from the table, MLP performed the best on our data set. As such, the following graph displays our classification errors using the MLP learner.</p>
+            <img class="graph" src="img/graph.png"></img>
+            <p class="caption"><i>Graph displaying the predicted discretized revenues vs the actual discretized revenues when putting the dataset through a MLP neural net. The x axis is the actual revenues and the y axis is the predicted revenues.</i></p>
+            <p class="lead">
+
+            As the above graph indicates, the linearity of the data points suggests fairly accurate predictions for discretized movie revenues through the use of multilayer perceptrons in neural networks, which achieved a validation accuracy of almost 80% (for more detailed information on specific accuracies, refer to the final report). More specifically, our neural nets indicated that the number of times a movie trailer was viewed on Youtube had the highest weight in predicting revenue results, followed by the number of shares.
+            </p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- Fourth Featurette -->
+        <div class="featurette" id="team">
+            <h2 class="featurette-heading">Team</h2>
+            <div class="col-sm-6">
+                <h3>Kevin Cheng</h3>
+                <p class="lead team">Sophomore in CS and Econ</p>
+                <a class="lead" href="mailto:kevincheng2018@u.northwestern.edu">kevincheng2018@u.northwestern.edu</a>
+            </div>
+            <div class="col-sm-6">
+                <h3>James He</h3>
+                <p class="lead team">Sophomore in CS and Applied Math</p>
+                <a class="lead" href="mailto:jameshe2018@u.northwestern.edu">jameshe2018@u.northwestern.edu</a>
+            </div>
+            <div class="col-sm-6">
+                <h3>Brian Zhan</h3>
+                <p class="lead team">Sophomore in CS</p>
+                <a class="lead" href="mailto:brianzhan2018@u.northwestern.edu">brianzhan2018@u.northwestern.edu</a>
+            </div>
+            <div class="col-sm-6">
+                <h3>Yingda Hu</h3>
+                <p class="lead team">Sophomore in CS and EE</p>
+                <a class="lead" href="mailto:yingdahu2018@u.northwestern.edu">yingdahu2018@u.northwestern.edu</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; EECS 349 2016</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

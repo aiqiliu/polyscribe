@@ -137,14 +137,21 @@
             <strong>Convolutional Sparse Coding: </strong>
             <br></br>
             Convolutional Basis Pursuit DeNoising (CBPDN) is defined by the following formula 
-            <img class="featurette-image img-responsive img-pad" style="width: 40%" src="img/csc.png">
+            <img class="displayed" style="width:30%" src="img/csc.png">
             where <em>s</em> is our polyphonic signal, <em>d_m</em> is our dictionary of individual notes, <em>x_m</em> is our activation vector, and lambda is the sparsity parameter. To solve this optimization problem, we used the python version of <a href="http://pythonhosted.org/sporco/overview.html">SPORCO</a>, an implementation of CBPDN that reduces the algorithmic time complexity from O(M^2N^2L) to O(MNlogN), where N is the length of the signal and M is the number of elements in the dictionary (88). We used  a polyphonic piano performance played by the same piano used for training and took a 5s segment as s(t), and approximate it with a summation of the dictionary of individual notes d_m(t) convolved with the activation vectors for all notes x_m(t), like so:
-            <img class="featurette-image img-responsive img-pad" style="width: 40%" src="img/formula.png">
+            <img class="displayed" style="width:30%" src="img/formula.png">
             The algorithm returns the estimations of the activations of all notes. To align the sample rate of the individual notes in the training set with the testing set, the polyphonic performance, we downsampled the piano polyphonic music to 11,025Hz. We used 0.005 as the value for the parameter lambda, and 500 as the number of iterations, as they were shown to be the values that return the best results in the paper. <br></br>
 
             <strong>Post-processing and Binarization </strong>
             <br></br>
-            From the raw activation vectors <em>x_m</em>, we performed peak picking of the local maxima for each activation vector at each sample rate timestamp to infer note onset. Based on our observation, our local maximum peaks were very noisy. We discovered that, contrary to the original paper, the earliest local maxima that appears in the 50ms window may not be the note that was actually playing at that time. Therefore, we modified the implementation of the paper. We sorted all local maximum raw activations and calculated the Inter-quartile range(IQR). Through our experiment, we found out that setting the threshold at "Q3 + 12 * IQR" seemed to eliminate most of the noisy peaks. Therefore, we removed all the local maximum that are below the threshold, and performed a binarization based on this threshold. 
+            From the raw activation vectors <em>x_m</em>, we performed peak picking of the local maxima for each activation vector at each sample rate timestamp to infer note onset. Based on our observation, our local maximum peaks were very noisy. We discovered that, contrary to the original paper, the earliest local maxima that appears in the 50ms window may not be the note that was actually playing at that time. Therefore, we modified the implementation of the paper. We sorted all local maximum raw activations and calculated the Inter-quartile range(IQR). Through our experiment, we found out that setting the threshold at "Q3 + 8 * IQR" seemed to eliminate most of the noisy peaks. Therefore, we removed all the local maximum that are below the threshold, and performed a binarization based on this threshold. 
+
+            <br></br>
+            Below is the plot of the f-measures for each song using different multiplier for the IQR to set the threshold. 
+
+            <img class="displayed" src="img/threshold.PNG" style="width:50%">
+
+            As we can see from the plot when the multipler is 8, the f-measure achieves a relatively good result for all 3 songs. Therefore, we picked the multipler as 8 when calculating the threshold.
             </p>
 
         </div>
@@ -155,9 +162,10 @@
          <div class="featurette" id="results">
             <h2 class="featurette-heading">Evaluation</h2>
             <p class="lead">
-                For our evaluation metrics, we calculated the precision and recall of our transcription. In our case, precision is the percentage of notes detected from our transcription that match with the ground truth given by the MIDI file of the polyphonic music. And recall is the percentage of the notes in the groundtruth that overlap with the notes in the transcription.
+                For our evaluation metrics, we calculated the precision, recall, and f-measure of our transcription. In our case, precision is the percentage of notes detected from our transcription that match with the ground truth given by the MIDI file of the polyphonic music. And recall is the percentage of the notes in the groundtruth that overlap with the notes in the transcription. And the calculationf for the f-measure is shown as below.
+                <img class="featurette-image img-responsive img-pad" src="img/f1.png" style="width:20%; display:block; margin-left: auto; margin-right: auto">
                 <br></br>
-                We got the precision of ********* and recall of ********.
+                <img class="displayed" style="width:40%; margin-top:-30px"src="img/evaluation.PNG">
             </p>
         </div>
 
@@ -165,53 +173,29 @@
          <hr class="featurette-divider">
         <!-- Fifth Featurette -->
         <div class="featurette" id="results">
-            <h2 class="featurette-heading">Results</h2>
-            <img class="table" src="img/table.png"></img>
-            <p class="caption"><i>Table displaying the final cross-validation classification accuracies for each of the learning models</i></p>
-            <p class="lead">As can be seen from the table, MLP performed the best on our data set. As such, the following graph displays our classification errors using the MLP learner.</p>
-            <img class="graph" src="img/graph.png"></img>
-            <p class="caption"><i>Graph displaying the predicted discretized revenues vs the actual discretized revenues when putting the dataset through a MLP neural net. The x axis is the actual revenues and the y axis is the predicted revenues.</i></p>
+            <h2 class="featurette-heading">Discussion</h2>
             <p class="lead">
+                For our project, we ran the model on three songs played by the same piano. Figure 1 above shows their corresponding precision, recall and fmeasure. To better illustrate the overlapping between the transcription and the groundtruth, below are the scatterplots that show the relationship between the transcription and the groundtruth. The dark green dots on the plots represent the notes in the groundtruth that overlap with the transciption. 
+                <br></br>
+                <img class="displayed" src="img/esp2.PNG">
+                <img class="displayed" src="img/esp5.PNG">
+                <img class="displayed" src="img/esp6.PNG">
+                <br></br>
 
-            As the above graph indicates, the linearity of the data points suggests fairly accurate predictions for discretized movie revenues through the use of multilayer perceptrons in neural networks, which achieved a validation accuracy of almost 80% (for more detailed information on specific accuracies, refer to the final report). More specifically, our neural nets indicated that the number of times a movie trailer was viewed on Youtube had the highest weight in predicting revenue results, followed by the number of shares.
-            </p>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <!-- Fourth Featurette -->
-        <div class="featurette" id="team">
-            <h2 class="featurette-heading">Team</h2>
-            <div class="col-sm-6">
-                <h3>Kevin Cheng</h3>
-                <p class="lead team">Sophomore in CS and Econ</p>
-                <a class="lead" href="mailto:kevincheng2018@u.northwestern.edu">kevincheng2018@u.northwestern.edu</a>
-            </div>
-            <div class="col-sm-6">
-                <h3>James He</h3>
-                <p class="lead team">Sophomore in CS and Applied Math</p>
-                <a class="lead" href="mailto:jameshe2018@u.northwestern.edu">jameshe2018@u.northwestern.edu</a>
-            </div>
-            <div class="col-sm-6">
-                <h3>Brian Zhan</h3>
-                <p class="lead team">Sophomore in CS</p>
-                <a class="lead" href="mailto:brianzhan2018@u.northwestern.edu">brianzhan2018@u.northwestern.edu</a>
-            </div>
-            <div class="col-sm-6">
-                <h3>Yingda Hu</h3>
-                <p class="lead team">Sophomore in CS and EE</p>
-                <a class="lead" href="mailto:yingdahu2018@u.northwestern.edu">yingdahu2018@u.northwestern.edu</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; EECS 349 2016</p>
+                We also converted the ground truth MIDI file and the transciption to mp3 files. Even though the transciption doesn't sound exactly like the ground truth, the two versions sound very similar .  
+                <div class="audiobar">
+                    <p> Ground truth MIDI file: </p>
+                    <audio controls="controls"><source src="audio/gt_midi_esp2.mp3" width="300" height="50" autoplay="false" controller="true"></source></audio>
                 </div>
-            </div>
-        </footer>
+                <br></br>
+                <div class="audiobar">
+                    <p> Transcripted MIDI file: </p>
+                    <audio controls="controls">
+                    <source src="audio/transcribed_midi_esp2.mp3" width="300" height="50" autoplay="false" controller="true"></source></audio></div>
+
+        </div>
+
+
 
     </div>
     <!-- /.container -->

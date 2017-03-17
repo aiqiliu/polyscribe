@@ -50,16 +50,16 @@
                         <a href="#motivation" class="hvr-grow">Motivation</a>
                     </li>
                     <li>
-                        <a href="#solution" class="hvr-grow">Solution</a>
+                        <a href="#approach" class="hvr-grow">Approach</a>
                     </li>
                     <li>
-                        <a href="#training" class="hvr-grow">Training & Testing</a>
+                        <a href="#methods" class="hvr-grow">Methods</a>
                     </li>
                     <li>
-                        <a href="#results" class="hvr-grow">Results</a>
+                        <a href="#evaluation" class="hvr-grow">Evaluation</a>
                     </li>
                     <li>
-                        <a href="#team" class="hvr-grow">Team</a>
+                        <a href="#discussion" class="hvr-grow">Discussion</a>
                     </li>
                 </ul>
             </div>
@@ -117,7 +117,7 @@
         <hr class="featurette-divider">
 
         <!-- Second Featurette -->
-        <div class="featurette" id="solution">
+        <div class="featurette" id="approach">
             <h2 class="featurette-heading">Approach</h2>
             <p class="lead">We are re-implementing the model and algorithmic approach described in 
                 <a href="http://www.ece.rochester.edu/~acogliat/assets/pdf/taslp2016.pdf"> Andrea Cogliati’s paper</a> in Python. Cogliati's paper focuses on the pitch prediction and onset detection of polyphonic piano music. The method described in Cogliati's paper uses a time-domain approach to transcribe polyphonic piano performances at the note-level. The method models the polyphonic waveform as a convolution of the individual notes' waveforms and their activation weights. By solving an optimization problem called Convolutional Basis Pursuit DeNoising (CBPDN), we can derive the activation weights of each note at each sample rate timestamp. The details of this algorithm are presented in the following section.</p>
@@ -127,7 +127,7 @@
         <hr class="featurette-divider">
 
         <!-- Third Featurette -->
-        <div class="featurette" id="training">
+        <div class="featurette" id="methods">
         <h2 class="featurette-heading">Methods</h2>
          <p class="lead">
             Based on the proposed method desribed in the paper, there are four main stages for the transcription process - training, convolutional sparse coding, post-processing, and binarization. <br></br>
@@ -160,7 +160,7 @@
         <hr class="featurette-divider">
 
          <!-- Fourth Featurette -->
-         <div class="featurette" id="results">
+         <div class="featurette" id="evaluation">
             <h2 class="featurette-heading">Evaluation</h2>
             <p class="lead">
                 For our evaluation metrics, we calculated the precision, recall, and f-measure of our transcription. In our case, precision is the percentage of notes in the transcription that appear within the ground truth. Conversly, recall is the percentage of the notes in the groundtruth that overlap with the notes in the transcription. We used a tolerance value of 50ms when calculating both recall and precision, since in practicality, few onsets in piano music occur within 50ms of others.
@@ -174,7 +174,7 @@
 
          <hr class="featurette-divider">
         <!-- Fifth Featurette -->
-        <div class="featurette" id="results">
+        <div class="featurette" id="discussion">
             <h2 class="featurette-heading">Discussion</h2>
             <p class="lead">
                 For our project, we ran the model on three songs played by the same piano. Figure 1 above shows their corresponding precision, recall and fmeasure. To better illustrate the overlapping between the transcription and the groundtruth, below are the scatterplots that show the relationship between the transcription and the groundtruth. The dark green dots on the plots represent the notes in the groundtruth that overlap with the transciption. 
